@@ -1,0 +1,25 @@
+<mat-drawer-container>
+  <mat-drawer #drawer class="example-sidenav" mode="side">
+    <p>Auto-resizing sidenav</p>
+  </mat-drawer>
+
+  <mat-toolbar>
+    <button
+      mat-icon-button
+      aria-label="Icon-button with menu icon"
+      (click)="drawer.toggle()"
+    >
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span class="spacer-sm"></span>
+    <span>Task Application</span>
+    <span class="spacer"></span>
+    <button mat-icon-button aria-label="icon-button with heart icon">
+      <mat-icon>favorite</mat-icon>
+    </button>
+    <button mat-icon-button aria-label="icon-button with share icon">
+      <mat-icon>share</mat-icon>
+    </button>
+  </mat-toolbar>
+</mat-drawer-container>
+
