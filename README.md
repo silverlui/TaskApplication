@@ -1,6 +1,8 @@
 # Sample .NET Task Application
 A simple RESTful Todo App that is implemented on the .NET Framework
 
+![TaskApplicationAPI](https://user-images.githubusercontent.com/80076244/198775182-ce9c93aa-ac29-4f09-8d3f-822304bc715b.png)
+
 # Utilizes
 - Entity Framework Core
 - Swagger UI
