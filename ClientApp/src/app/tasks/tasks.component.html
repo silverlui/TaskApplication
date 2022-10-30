@@ -1,48 +1,49 @@
-  <mat-card>
-    <mat-card-title>Enter Task to Record</mat-card-title>
-    <form class="todo-form">
-      <mat-form-field appearance="fill">
-        <mat-label>Task</mat-label>
-        <input
-          #description
-          matInput
-          placeholder="What to do?"
+<mat-card>
+  <mat-card-title>Enter Task to Record</mat-card-title>
+  <form class="todo-form">
+    <mat-form-field appearance="fill">
+      <mat-label>Task</mat-label>
+      <input
+        #description
+        matInput
+        placeholder="What to do?"
+      />
+    </mat-form-field>
+    <button mat-button
+            color="black"
+            (click)="postTodo(description)">
+      Submit
+    </button>
+  </form>
+</mat-card>
 
-        />
-      </mat-form-field>
-      <button mat-button
-              color="black"
-              (click)="postTodo(description)">
-        Submit
-      </button>
-    </form>
-  </mat-card>
+<div class="spacer"></div>
 
-  <mat-card>
-    <mat-card-title>To Do Tasks: </mat-card-title>
+<mat-card>
+  <mat-card-title>To Do Tasks: </mat-card-title>
 
-    <mat-card-actions>
-      <button mat-button (click)="deleteTodos()" >
-        Clear All Tasks
-      </button>
-      <button mat-button (click)="deleteSelectedTodos()" >
-        Clear {{todos.selectedOptions.selected.length}} Tasks
-      </button>
-          <button mat-button (click)="selectAll()" >
-            Select All
-          </button>
-          <button mat-button (click)="deselectAll()" >
-            Deselect All
-          </button>
-    </mat-card-actions>
+  <mat-card-actions>
+    <button mat-button (click)="deleteTodos()" >
+      Clear All Tasks
+    </button>
+    <button mat-button (click)="deleteSelectedTodos()" >
+      Clear {{todos.selectedOptions.selected.length}} Tasks
+    </button>
+    <button mat-button (click)="selectAll()" >
+      Select All
+    </button>
+    <button mat-button (click)="deselectAll()" >
+      Deselect All
+    </button>
+  </mat-card-actions>
 
-    <mat-card-content>
-      <mat-selection-list #todos>
-        <mat-list-option *ngFor="let todo of todoList" [value]="todo">
-          {{ todo.description }}
-        </mat-list-option>
-      </mat-selection-list>
-    </mat-card-content>
-  </mat-card>
+  <mat-card-content>
+    <mat-selection-list #todos>
+      <mat-list-option *ngFor="let todo of todoList" [value]="todo">
+        {{ todo.description }}
+      </mat-list-option>
+    </mat-selection-list>
+  </mat-card-content>
+</mat-card>
 
 
