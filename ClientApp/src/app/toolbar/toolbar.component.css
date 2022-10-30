@@ -5,3 +5,11 @@
 .spacer-sm {
   width: 2%;
 }
+
+/*.mat-drawer-container {*/
+/*  height: 100%;*/
+/*}*/
+
+.sidenav {
+  padding: 50px;
+}
