@@ -1,5 +1,6 @@
 export interface UpdateTodoDto {
+  id: string,
   description: string,
-  isImportant: boolean,
-  isCompleted: boolean
+  is_important: boolean,
+  is_completed: boolean
 }

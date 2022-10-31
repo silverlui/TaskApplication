@@ -3,6 +3,7 @@ import { getBaseUrl } from "../../main";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Todo } from "../interfaces/Todo";
 import { CreateTodoDto } from "../interfaces/CreateTodoDto";
+import { UpdateTodoDto } from "../interfaces/UpdateTodoDto";
 
 @Injectable({
   providedIn: 'root'
@@ -16,11 +17,24 @@ export class TasksService {
     return this.http.get<Todo[]>(this.url);
   }
 
-  postTodo(post: CreateTodoDto) {
+  postTodo(createTodoDto: CreateTodoDto) {
     let httpHeaders = new HttpHeaders({
       'Content-Type': 'application/json'
     })
-    return this.http.post<Todo>(this.url, post,
+    return this.http.post<Todo>(this.url, createTodoDto,
+      {
+        headers: httpHeaders,
+        observe: 'response'
+      }
+    );
+  }
+
+  completeTodo(updateTodoDto: UpdateTodoDto) {
+    let httpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json'
+    })
+    updateTodoDto.is_completed = true;
+    return this.http.put<Todo>(this.url + "/" + updateTodoDto.id, updateTodoDto,
       {
         headers: httpHeaders,
         observe: 'response'

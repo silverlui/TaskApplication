@@ -1,8 +1,8 @@
 export interface Todo {
   id: string,
   description: string,
-  isImportant: boolean,
-  isCompleted: boolean,
-  createdAt: string,
-  updatedAt: string
+  is_important: boolean,
+  is_completed: boolean,
+  created_at: string,
+  updated_at: string
 }

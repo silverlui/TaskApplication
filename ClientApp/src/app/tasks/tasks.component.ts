@@ -12,6 +12,7 @@ import { MatSelectionList } from "@angular/material/list";
 })
 export class TasksComponent implements OnInit {
   public todoList: Todo[] = [];
+  public completedTodoList: Todo[] = [];
 
   constructor(public services: TasksService) {}
 
@@ -53,10 +54,11 @@ export class TasksComponent implements OnInit {
     input.value = '';
   }
 
-  deleteTodos() {
+  deleteAllTodos() {
     this.services.deleteAllTodos().subscribe({
       next: () => {
         this.todoList = [];
+        this.completedTodoList = [];
       },
       error: (err) => {
         console.error(err);
@@ -64,10 +66,10 @@ export class TasksComponent implements OnInit {
     });
   }
 
-  @ViewChild("todos") selectionList: MatSelectionList | undefined
+  @ViewChild("todos") deleteSelectionList: MatSelectionList | undefined
   deleteSelectedTodos() {
-    if (typeof this.selectionList !== "undefined") {
-      const selected: Todo[] = this.selectionList.selectedOptions.selected.map((s) => s.value);
+    if (typeof this.deleteSelectionList!== "undefined") {
+      const selected: Todo[] = this.deleteSelectionList.selectedOptions.selected.map((s) => s.value);
 
       selected.forEach((todo: Todo) => {
         this.services.deleteTodo(todo.id).subscribe({
@@ -82,9 +84,27 @@ export class TasksComponent implements OnInit {
     }
   }
 
+  @ViewChild("todos") completeSelectionList: MatSelectionList | undefined
+  completeSelectedTodos() {
+    if (typeof this.completeSelectionList!== "undefined") {
+      const selected: Todo[] = this.completeSelectionList.selectedOptions.selected.map((s) => s.value);
+      selected.forEach((todo: Todo) => {
+        this.services.completeTodo(todo).subscribe({
+          next: () => {
+            this.todoList = this.todoList.filter(todo => !todo.is_completed)
+            this.completedTodoList.push(todo)
+          },
+          error: (err) => {
+            console.error(err)
+          }
+        });
+      })
+    }
+  }
+
   selectAll() {
-    if (typeof this.selectionList !== "undefined") {
-      return this.selectionList.selectAll()
+    if (typeof this.deleteSelectionList!== "undefined") {
+      return this.deleteSelectionList.selectAll()
     } else {
       console.log("this.selection might be undefined")
       return null;
@@ -92,8 +112,8 @@ export class TasksComponent implements OnInit {
   }
 
   deselectAll() {
-    if (typeof this.selectionList !== "undefined") {
-      return this.selectionList.deselectAll()
+    if (typeof this.deleteSelectionList!== "undefined") {
+      return this.deleteSelectionList.deselectAll()
     } else {
       console.log("this.selection might be undefined")
       return null;
