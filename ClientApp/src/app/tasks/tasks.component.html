@@ -7,13 +7,9 @@
         #description
         matInput
         placeholder="What to do?"
+        (keydown.enter)="postTodo(description)"
       />
     </mat-form-field>
-    <button mat-button
-            color="black"
-            (click)="postTodo(description)">
-      Add
-    </button>
   </form>
 </mat-card>
 
