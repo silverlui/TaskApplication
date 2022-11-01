@@ -19,7 +19,13 @@ export class TasksComponent implements OnInit {
   ngOnInit(): void {
     this.services.getTodos().subscribe({
       next: (response: Todo[]) => {
-        this.todoList = response;
+        response.map((todo) => {
+          if (todo.is_completed) {
+            this.completedTodoList.push(todo)
+          } else {
+            this.todoList.push(todo)
+          }
+        })
       },
       error: (err) => {
         console.error(err);
@@ -40,11 +46,10 @@ export class TasksComponent implements OnInit {
       next: (response: HttpResponse<Todo>) => {
         let todo = response.body;
 
-        if (todo !== null) {
-          this.todoList.push(todo);
-        } else {
-          console.log("Null Todo?");
-        }
+        if (!todo)
+          return console.error("Null Post Response")
+
+        this.todoList.push(todo);
       },
       error: (err) => {
         console.error(err);
@@ -68,55 +73,55 @@ export class TasksComponent implements OnInit {
 
   @ViewChild("todos") deleteSelectionList: MatSelectionList | undefined
   deleteSelectedTodos() {
-    if (typeof this.deleteSelectionList!== "undefined") {
-      const selected: Todo[] = this.deleteSelectionList.selectedOptions.selected.map((s) => s.value);
+    if (!this.deleteSelectionList)
+      return console.error("Selection List is undefined");
 
-      selected.forEach((todo: Todo) => {
-        this.services.deleteTodo(todo.id).subscribe({
-          next: () => {
-            this.todoList = this.todoList.filter(todo => !selected.includes(todo))
-          },
-          error: (err) => {
-            console.error(err)
-          }
-        });
-      })
-    }
+    const selected: Todo[] = this.deleteSelectionList.selectedOptions
+      .selected
+      .map((s) => s.value);
+
+    selected.forEach((todo: Todo) => {
+      this.services.deleteTodo(todo.id).subscribe({
+        next: () => {
+          this.todoList = this.todoList.filter(todo => !selected.includes(todo))
+        },
+        error: (err) => {
+          console.error(err)
+        }
+      });
+    })
   }
 
   @ViewChild("todos") completeSelectionList: MatSelectionList | undefined
   completeSelectedTodos() {
-    if (typeof this.completeSelectionList!== "undefined") {
-      const selected: Todo[] = this.completeSelectionList.selectedOptions.selected.map((s) => s.value);
-      selected.forEach((todo: Todo) => {
-        this.services.completeTodo(todo).subscribe({
-          next: () => {
-            this.todoList = this.todoList.filter(todo => !todo.is_completed)
-            this.completedTodoList.push(todo)
-          },
-          error: (err) => {
-            console.error(err)
-          }
-        });
-      })
-    }
+    if (!this.completeSelectionList)
+      return console.error("Selection List is undefined");
+
+    const selected: Todo[] = this.completeSelectionList.selectedOptions.selected.map((s) => s.value);
+    selected.forEach((todo: Todo) => {
+      this.services.completeTodo(todo).subscribe({
+        next: () => {
+          this.todoList = this.todoList.filter(todo => !todo.is_completed)
+          this.completedTodoList.push(todo)
+        },
+        error: (err) => {
+          console.error(err)
+        }
+      });
+    })
   }
 
   selectAll() {
-    if (typeof this.deleteSelectionList!== "undefined") {
-      return this.deleteSelectionList.selectAll()
-    } else {
-      console.log("this.selection might be undefined")
-      return null;
-    }
+    if (!this.deleteSelectionList)
+      return console.error("Selection List is undefined");
+
+    return this.deleteSelectionList.selectAll()
   }
 
   deselectAll() {
-    if (typeof this.deleteSelectionList!== "undefined") {
-      return this.deleteSelectionList.deselectAll()
-    } else {
-      console.log("this.selection might be undefined")
-      return null;
-    }
+    if (!this.deleteSelectionList)
+      return console.error("Selection List is undefined");
+
+    return this.deleteSelectionList.deselectAll()
   }
 }

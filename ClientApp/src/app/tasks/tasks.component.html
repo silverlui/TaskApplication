@@ -20,7 +20,7 @@
 <div class="spacer"></div>
 
 <mat-card>
-  <mat-card-title>To Do Tasks: </mat-card-title>
+  <mat-card-title>To Do Tasks: {{todoList.length}}</mat-card-title>
 
   <mat-card-actions>
     <button mat-button (click)="deleteAllTodos()" >
@@ -52,10 +52,10 @@
 <div class="spacer"></div>
 
 <mat-card>
-  <mat-card-title>Completed Tasks: </mat-card-title>
+  <mat-card-title>Completed Tasks: {{completedTodoList.length}}</mat-card-title>
   <mat-card-content>
-    <mat-list *ngFor="let todo of completedTodoList">
-      <mat-list-item *ngIf="todo.is_completed">
+    <mat-list>
+      <mat-list-item *ngFor="let todo of completedTodoList">
           {{ todo.description }}
       </mat-list-item>
     </mat-list>
